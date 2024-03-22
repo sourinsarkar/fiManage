@@ -1,5 +1,6 @@
 #FiManage
 Personal Finance Management Tool
 
-Individual contributor
+Individual contributor:
+
 Sourin Sarkar

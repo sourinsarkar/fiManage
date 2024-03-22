@@ -9,7 +9,7 @@ const App: React.FC = () => {
                 <div><img src={SourinIcon} alt="Sourin Logo" className="h-8" /></div>
             </div>
 
-        <Button buttonText="SignIn"/>
+        <Button buttonText="Sign In"/>
         </div>
     </div>
   );

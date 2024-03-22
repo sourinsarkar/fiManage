@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --primary-font: 'PJS';
+    --mono-font: 'JetBrainsMono-Variable';
+}
+
+body {
+    font-family: var(--primary-font);
+}   
+
+/* PJS */
+
+@font-face {
+    font-family: 'PJS';
+    src: url('/fonts/PJS/PlusJakartaSans-Variable.woff2') format('woff2'),
+        url('/fonts/PJS/PlusJakartaSans-Variable.woff') format('woff'),
+        url('/fonts/PJS/PlusJakartaSans-Variable.ttf') format('truetype');
+    font-weight: 200 800;
+    font-display: swap;
+    font-style: normal;
+}
+
+/* JetBrains */
+
+@font-face {
+    font-family: 'JetBrainsMono-Variable';
+    src: url('/fonts/JetBrains/JetBrainsMono-Variable.woff2') format('woff2'),
+        url('/fonts/JetBrains/JetBrainsMono-Variable.woff') format('woff'),
+        url('/fonts/JetBrains/JetBrainsMono-Variable.ttf') format('truetype');
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+}

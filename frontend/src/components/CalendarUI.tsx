@@ -20,7 +20,7 @@ const CalendarUI: React.FC = () => {
 
         const firstDayOfWeek = getDay(start);
         for (let i = 0; i < firstDayOfWeek; i++) {
-            formattedDays.unshift({ day: "", date: "", monthName: format(start, "MMMM") })
+            formattedDays.unshift({ day: "", date: "", monthName: format(start, "MMMM") });
         }
 
         return formattedDays;

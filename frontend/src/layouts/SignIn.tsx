@@ -18,7 +18,7 @@ const handleSubmit = async (event: React.FormEvent) => {
         
         navigate('/');
         console.log(token);
-    } catch(error: any) {
+    } catch(error: any) { 
         console.error(error.response.data.message);
     }
 }

@@ -53,7 +53,7 @@ const expenseSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const User = mongoose.model('Users', userSchema);
-const Expense = mongooe.model('Expense', expenseSchema);
+const Expense = mongoose.model('Expense', expenseSchema);
 
 app.post("/signup", async function (req, res) {
     const name = req.body.name;

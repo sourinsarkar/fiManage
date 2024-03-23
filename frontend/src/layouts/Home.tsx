@@ -1,6 +1,6 @@
-// import CalendarUI from "../components/CalendarUI
 import Navbar from "../components/Navbar";
 import { PaperAirplaneIcon, SparklesIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
@@ -28,7 +28,11 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex items-center justify-center">
-          <div className="mx-auto text-center flex items-center justify-center px-5 py-3 bg-[#131314] text-[#ffffff] rounded-xl shadow-shdw-1 leading-none">Create an account</div>
+        </div>
+        <div className="flex items-center justify-center">
+          <Link to="/signup">
+            <div className="mx-auto max-w-48 text-center flex items-center justify-center px-5 py-3 bg-[#131314] text-[#ffffff] rounded-xl shadow-shdw-1 leading-none">Create an account</div>
+          </Link>
         </div>
       </div>
     </div>

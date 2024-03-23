@@ -1,11 +1,11 @@
-// import Home from "./layouts/Home"
-import Dashboard from "./layouts/Dashboard"
+import Home from "./layouts/Home"
+// import Dashboard from "./layouts/Dashboard"
 
 const App: React.FC = () => {
   return(
     <>
-      {/* <Home /> */}
-      <Dashboard />
+      <Home />
+      {/* <Dashboard /> */}
     </>
   );
 }

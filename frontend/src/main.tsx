@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import SignIn from './layouts/SignIn';
 import SignUp from './layouts/SignUp';
+import Dashboard from './layouts/Dashboard';
 import { Provider } from 'react-redux';
 import { store } from "./store/store";
 
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />
-  }
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

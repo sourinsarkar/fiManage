@@ -1,9 +1,11 @@
-import Home from "./layouts/Home"
+// import Home from "./layouts/Home"
+import Dashboard from "./layouts/Dashboard"
 
 const App: React.FC = () => {
   return(
     <>
-      <Home />
+      {/* <Home /> */}
+      <Dashboard />
     </>
   );
 }

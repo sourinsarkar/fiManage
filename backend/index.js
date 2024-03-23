@@ -31,9 +31,24 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Password is required."]
     },
-}, {timestamps: true})
+}, {timestamps: true});
+
+const expenseSchema = new mongoose.Schema({
+    amount: {
+        type: Number,
+        required: true,
+        trim: true,
+    },
+
+    expenseNote: {
+        type: String,
+        required: true,
+        trim: true,
+    }
+}, [timestamps: true]);
 
 const User = mongoose.model('Users', userSchema);
+const Expense = mongooe.model('Expense', expenseSchema);
 
 app.post("/signup", async function(req, res) {
     const name = req.body.name;
@@ -53,8 +68,8 @@ app.post("/signup", async function(req, res) {
     });
 
     const token = jwt.sign({email: email}, jwtPassword);
-    user.token = token; // Save the token in the user document
-    await user.save(); // Save the updated user document
+    user.token = token;
+    await user.save();
 
     res.json({
         message: "User created successfully",
@@ -77,6 +92,15 @@ app.post("/signin", async function(req, res) {
     res.json({
         token
     });
+})
+
+app.post("/expenseInfo", async function(req, res) {
+    const expenseAmount = req.body.expenseAmount;
+    const expenseNote = req.body.expenseNote;
+
+    const expense = new Expense({
+        
+    })
 })
 
 app.listen(PORT, function() {

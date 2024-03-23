@@ -1,11 +1,21 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronUpIcon, ChevronDownIcon} from "@heroicons/react/24/solid";
 import CalendarUI from "../components/CalendarUI";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
+import { incrementDate, decrementDate } from "../slices/calendar/date";
 
 const App: React.FC = () => {
   const date = useSelector((state: RootState) => state.date.date);
+  const dispatch = useDispatch();
+
+  const handleIncrementDate = () => {
+    dispatch(incrementDate(1));  
+  }
+  
+  const handleDecrementDate = () => {
+    dispatch(decrementDate(1));  
+  }
 
   return(
     <div className="max-w-screen-xl mx-auto">
@@ -19,9 +29,9 @@ const App: React.FC = () => {
               
                 <form className="flex justify-between items-center w-full mx-6">
                   <div className="pl-0 pr-4 flex items-center justify-center">
-                    <ChevronDownIcon className="h-6 w-6" />
+                    <ChevronDownIcon className="h-6 w-6" onClick={handleDecrementDate} />
                     <p>{date.toString()}</p>
-                    <ChevronUpIcon className="h-6 w-6" />
+                    <ChevronUpIcon className="h-6 w-6" onClick={handleIncrementDate}/>
                   </div>
 
                   <div>

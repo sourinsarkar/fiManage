@@ -31,9 +31,14 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Password is required."]
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
 const expenseSchema = new mongoose.Schema({
+    date: {
+        type: Date,
+        required: true,
+    },
+
     amount: {
         type: Number,
         required: true,
@@ -45,19 +50,19 @@ const expenseSchema = new mongoose.Schema({
         required: true,
         trim: true,
     }
-}, [timestamps: true]);
+}, { timestamps: true });
 
 const User = mongoose.model('Users', userSchema);
 const Expense = mongooe.model('Expense', expenseSchema);
 
-app.post("/signup", async function(req, res) {
+app.post("/signup", async function (req, res) {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
 
-    const existingUser = await User.findOne({email: email});
+    const existingUser = await User.findOne({ email: email });
 
-    if(existingUser) {
+    if (existingUser) {
         return res.status(400).send("Username already exists.");
     }
 
@@ -67,7 +72,7 @@ app.post("/signup", async function(req, res) {
         password: password,
     });
 
-    const token = jwt.sign({email: email}, jwtPassword);
+    const token = jwt.sign({ email: email }, jwtPassword);
     user.token = token;
     await user.save();
 
@@ -77,32 +82,62 @@ app.post("/signup", async function(req, res) {
     });
 })
 
-app.post("/signin", async function(req, res) {
+app.post("/signin", async function (req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    const existingUser = await User.findOne({email: email});
+    const existingUser = await User.findOne({ email: email });
 
-    if(!existingUser || existingUser.password !== password) {
-        return res.status(403).json({message: "Invalid email or password"});
+    if (!existingUser || existingUser.password !== password) {
+        return res.status(403).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({email: email}, jwtPassword);
+    const token = jwt.sign({ email: email }, jwtPassword);
 
     res.json({
         token
     });
 })
 
-app.post("/expenseInfo", async function(req, res) {
+app.post("/expenseInfo", async function (req, res) {
     const expenseAmount = req.body.expenseAmount;
     const expenseNote = req.body.expenseNote;
+    const expenseDate = req.body.expenseDate;
 
     const expense = new Expense({
-        
-    })
+        date: new Date(expenseDate),
+        amount: expenseAmount,
+        note: expenseNote,
+    });
+
+    try {
+        await expense.save();
+        res.status(201).send(expense);
+    } catch (error) {
+        res.status(400).send(error);
+    }
 })
 
-app.listen(PORT, function() {
+// API
+
+app.get("/api/expenses/:date", async (req, res) => {
+    const date = new Date(req.params.date);
+    const nextDay = new Date(date);
+    nextDay.setDate(date.getDate() + 1);
+
+    try {
+        const expenses = await Expense.find({
+            date: {
+                $gte: date,
+                $lt: nextDay
+            }
+        });
+        res.send(expenses);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+app.listen(PORT, function () {
     console.log(`Server is running on port: ${PORT}`);
 })

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import type { PayloadAction } from "@reduxjs/toolkit"
 
 interface dateType {
     date: Date
@@ -8,22 +9,22 @@ const initialState: dateType = {
     date: new Date()
 }
 
-export const date = createSlice({
+export const dateSlice = createSlice({
     name: "date",
     initialState,
     reducers: {
-        incrementDate: (state) => {
+        incrementDate: (state, action: PayloadAction<number>) => {
             const newDate = new Date(state.date);
-            newDate.setDate(newDate.getDate() + 1);
+            newDate.setDate(newDate.getDate() + action.payload);
             state.date = newDate;
         },
-        decrementDate: (state) => {
+        decrementDate: (state, action: PayloadAction<number>) => {
             const newDate = new Date(state.date);
-            newDate.setDate(newDate.getDate() - 1);
+            newDate.setDate(newDate.getDate() - action.payload);
             state.date = newDate;
         },
     },
 });
 
-export const { incrementDate, decrementDate } = date.actions;
-export default date.reducer;
+export const { incrementDate, decrementDate } = dateSlice.actions;
+export default dateSlice.reducer;

@@ -1,8 +1,14 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronUpIcon, ChevronDownIcon} from "@heroicons/react/24/solid";
 import CalendarUI from "../components/CalendarUI";
+import { incrementDate, decrementDate } from "../slices/calendar/date";
+import { useState } from "react";
 
 const App: React.FC = () => {
+  const [date, setDate] = useState(new Date());
+
+  const 
+
   
   return(
     <div className="max-w-screen-xl mx-auto">
@@ -16,9 +22,9 @@ const App: React.FC = () => {
               
                 <form className="flex justify-between items-center w-full mx-6">
                   <div className="pl-0 pr-4 flex items-center justify-center">
-                    <ChevronDownIcon className="h-6 w-6" />
-                    <p>Hello</p>
-                    <ChevronUpIcon className="h-6 w-6" />
+                    <ChevronDownIcon className="h-6 w-6" onClick={handleIncrementDate}/>
+                    <p>{date.toString()}</p>
+                    <ChevronUpIcon className="h-6 w-6" onClick={handleDecrementDate}/>
                   </div>
 
                   <div>

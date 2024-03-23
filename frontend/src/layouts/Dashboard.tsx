@@ -30,7 +30,11 @@ const App: React.FC = () => {
                 <form className="flex justify-between items-center w-full mx-6">
                   <div className="pl-0 pr-4 flex items-center justify-center">
                     <ChevronDownIcon className="h-6 w-6" onClick={handleDecrementDate} />
-                    <p>{date.toString()}</p>
+                    <input type="text"
+                            readOnly
+                            value={`${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}`} 
+                            className="max-w-16 text-center"
+                    />
                     <ChevronUpIcon className="h-6 w-6" onClick={handleIncrementDate}/>
                   </div>
 

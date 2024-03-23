@@ -1,5 +1,6 @@
 import { eachDayOfInterval, startOfMonth, endOfMonth, format, getDay, addMonths } from "date-fns";
 import { useState, useEffect } from "react";
+import { ChevronUpIcon, ChevronDownIcon} from "@heroicons/react/24/solid";
 
 const CalendarUI: React.FC = () => {
 
@@ -48,9 +49,9 @@ const CalendarUI: React.FC = () => {
     return (
         <div>
             <div style={{ display: "flex" }}>
-                <button id="previousMonth" onClick={handlePreviousMonth}>Previous</button>
+                <ChevronDownIcon className="h-6 w-6" onClick={handlePreviousMonth} />
                 {calendar[0]?.monthName}
-                <button id="nextMonth" onClick={handleNextMonth}>Next</button>
+                <ChevronUpIcon className="h-6 w-6" onClick={handleNextMonth} />
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "10px" }}>

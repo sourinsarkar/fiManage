@@ -36,18 +36,15 @@ const userSchema = new Schema({
 const expenseSchema = new mongoose.Schema({
     date: {
         type: Date,
-        required: true,
     },
 
     amount: {
         type: Number,
-        required: true,
         trim: true,
     },
 
     expenseNote: {
         type: String,
-        required: true,
         trim: true,
     }
 }, { timestamps: true });
@@ -100,9 +97,11 @@ app.post("/signin", async function (req, res) {
 })
 
 app.post("/expenseData", async function (req, res) {
-    const expenseAmount = req.body.expenseAmount;
-    const expenseNote = req.body.expenseNote;
-    const expenseDate = req.body.expenseDate;
+    const { expenseAmount, expenseNote, expenseDate } = req.body;
+
+    if (!expenseAmount || !expenseNote || !expenseDate) {
+        return res.status(400).send({ error: 'All fields are required' });
+    }
 
     const expense = new Expense({
         date: new Date(expenseDate),
@@ -114,9 +113,10 @@ app.post("/expenseData", async function (req, res) {
         await expense.save();
         res.status(201).send(expense);
     } catch (error) {
-        res.status(400).send(error);
+        console.error('Error saving expense:', error);
+        res.status(400).send({ error: 'Error saving expense' });
     }
-})
+});
 
 // API
 
@@ -135,6 +135,22 @@ app.get("/api/expenses/:date", async (req, res) => {
         res.send(expenses);
     } catch (error) {
         res.status(500).send(error);
+    }
+});
+
+app.get("/expenseData", async function (req, res) {
+    const { date } = req.query;
+
+    if (!date) {
+        return res.status(400).send({ error: 'Date is required' });
+    }
+
+    try {
+        const expenses = await Expense.find({ date });
+        res.status(200).send(expenses);
+    } catch (error) {
+        console.error('Error fetching expenses:', error);
+        res.status(500).send({ error: 'Error fetching expenses' });
     }
 });
 

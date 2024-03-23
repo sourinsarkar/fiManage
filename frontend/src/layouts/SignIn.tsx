@@ -11,12 +11,12 @@ const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-        const response = await axios.post("https://localhost:3000/signin", {email, password});
+        const response = await axios.post("http://localhost:3000/signin", {email, password});
         const token = response.data.token;
 
         localStorage.setItem('token', token);
         
-        navigate('/');
+        navigate('/dashboard');
         console.log(token);
     } catch(error: any) { 
         console.error(error.response.data.message);

@@ -6,6 +6,7 @@ import { RootState } from "../store/store";
 import { incrementDate, decrementDate } from "../slices/calendar/date";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const App: React.FC = () => {
   const date = useSelector((state: RootState) => state.date.date);
@@ -18,7 +19,7 @@ const App: React.FC = () => {
   const handleDecrementDate = () => {
     dispatch(decrementDate(1));  
   }
-
+  const navigate = useNavigate();
   const [expenseNote, setExpenseNote] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
 
@@ -26,8 +27,13 @@ const App: React.FC = () => {
     event.preventDefault();
     const token = localStorage.getItem("token");
 
+    if (!expenseNote) {
+      console.error('Expense note is required');
+      return;
+    }
+
     try {
-      const response = await axios.post("https://localhost:3000/expenseData", {
+      const response = await axios.post("http://localhost:3000/expenseData", {
         expenseDate: date,
         expenseAmount,
         expenseNote,
@@ -42,10 +48,23 @@ const App: React.FC = () => {
       }
 
       console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.response) {
+        console.error(error.response.data);
+        console.error(error.response.status);
+        console.error(error.response.headers);
+      } else if (error.request) {
+        console.error(error.request);
+      } else {
+        console.error('Error', error.message);
+      }
     }
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
 
   return(
     <div className="max-w-screen-xl mx-auto">
@@ -53,6 +72,8 @@ const App: React.FC = () => {
         <div>
             <h1 className="text-center font-bold text-7xl tracking-tight leading-tight">Track. Save. Thrive.</h1>
         </div>
+
+        <button onClick={handleLogout}>Logout</button>
 
         <div className="my-12">
           <div className="flex items-center max-w-2xl min-h-20 m-auto rounded-3xl shadow-sh_Light">

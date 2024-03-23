@@ -3,24 +3,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC = () => {
-const [name, setName] = useState("");
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-        const response = await axios.post("https://localhost:3000/signup", {name, email, password});
-        const token = response.data.token;
+        const response = await axios.post("http://localhost:3000/signup", {name, email, password});
 
-        localStorage.setItem('token', token);
-        
-        navigate('/dashboard');
-        console.log(token);
+        if (response && response.data) {
+            const token = response.data.token;
+
+            localStorage.setItem('token', token);
+            
+            navigate('/dashboard');
+            console.log(token);
+        } else {
+            throw new Error('No response from server');
+        }
     } catch(error: any) { 
-        console.error(error.response.data.message);
+        console.error(error.response ? error.response.data.message : error.message);
     }
 }
 
@@ -49,7 +54,7 @@ const handleSubmit = async (event: React.FormEvent) => {
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Password"
           />
-          <button type="submit">Sign In</button>
+          <button type="submit">Create Account</button>
         </form>
       </div>
     </div>

@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken"
+import cors from "cors"
 
 const jwtPassword = "123456";
 const app = express();
 app.use(express.json());
+app.use(cors());
 const PORT = 3000 || process.env.PORT;
 
 mongoose.connect("mongodb+srv://sourinsarkar:sourin000@cluster0.c18bo5p.mongodb.net/");

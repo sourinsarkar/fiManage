@@ -4,6 +4,8 @@ import CalendarUI from "../components/CalendarUI";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store/store";
 import { incrementDate, decrementDate } from "../slices/calendar/date";
+import axios from "axios";
+import { useState } from "react";
 
 const App: React.FC = () => {
   const date = useSelector((state: RootState) => state.date.date);
@@ -17,6 +19,34 @@ const App: React.FC = () => {
     dispatch(decrementDate(1));  
   }
 
+  const [expenseNote, setExpenseNote] = useState("");
+  const [expenseAmount, setExpenseAmount] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.post("https://localhost:3000/expenseData", {
+        expenseDate: date,
+        expenseAmount,
+        expenseNote,
+      },{
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if(response.status !== 201) {
+        throw new Error("Error saving the expense data.");
+      }
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return(
     <div className="max-w-screen-xl mx-auto">
       <div className="mx-10">
@@ -27,7 +57,7 @@ const App: React.FC = () => {
         <div className="my-12">
           <div className="flex items-center max-w-2xl min-h-20 m-auto rounded-3xl shadow-sh_Light">
               
-                <form className="flex justify-between items-center w-full mx-6">
+                <form onSubmit={handleSubmit} className="flex justify-between items-center w-full mx-6">
                   <div className="pl-0 pr-4 flex items-center justify-center">
                     <ChevronDownIcon className="h-6 w-6" onClick={handleDecrementDate} />
                     <input type="text"
@@ -39,15 +69,23 @@ const App: React.FC = () => {
                   </div>
 
                   <div>
-                    <input type="text" className="max-w-16 text-center border border-1 border-slate-600"/>
+                    <input type="number"
+                            value={expenseAmount}
+                            onChange={(event) => setExpenseAmount(event.target.value)} 
+                            placeholder=""
+                            className="max-w-16 text-center border border-1 border-slate-600"/>
                   </div>
 
                   <div className="w-full">
-                    <input className="outline-none flex items-center w-full text-xl font-medium tracking-tight placeholder:text-[#888888]" placeholder="Record your expenses here" />
+                    <input type="text"
+                            value={expenseNote}
+                            onChange={(event) => setExpenseNote(event.target.value)}
+                            placeholder="Record your expenses here"
+                            className="outline-none flex items-center w-full text-xl font-medium tracking-tight placeholder:text-[#888888]" />
                   </div>
               
                   <div className="flex items-center justify-end">
-                      <button className="p-4"><PlusCircleIcon className="h-6 w-6" /> </button>
+                      <button type="submit" className="p-4"><PlusCircleIcon className="h-6 w-6" /> </button>
                   </div>
                 </form>
           </div>

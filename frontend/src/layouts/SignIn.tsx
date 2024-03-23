@@ -11,7 +11,7 @@ const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-        const response = await axios.post("http://localhost:3000/signin", {email, password});
+        const response = await axios.post("https://localhost:3000/signin", {email, password});
         const token = response.data.token;
 
         localStorage.setItem('token', token);
@@ -33,13 +33,13 @@ const handleSubmit = async (event: React.FormEvent) => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(event) => setEmail(event.target.value)}
             placeholder="Email"
           />
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="Password"
           />
           <button type="submit">Sign In</button>

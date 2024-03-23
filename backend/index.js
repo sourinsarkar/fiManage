@@ -99,7 +99,7 @@ app.post("/signin", async function (req, res) {
     });
 })
 
-app.post("/expenseInfo", async function (req, res) {
+app.post("/expenseData", async function (req, res) {
     const expenseAmount = req.body.expenseAmount;
     const expenseNote = req.body.expenseNote;
     const expenseDate = req.body.expenseDate;
